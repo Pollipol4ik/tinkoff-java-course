@@ -1,10 +1,9 @@
 package edu.project4;
 
-
-import edu.project4.processor.ImageProcessor;
-import edu.project4.model.FractalImage;
 import edu.project4.model.Format;
+import edu.project4.model.FractalImage;
 import edu.project4.model.Rect;
+import edu.project4.processor.ImageProcessor;
 import edu.project4.renderer.Renderer;
 import edu.project4.transformation.Transformation;
 import edu.project4.util.ImageUtils;

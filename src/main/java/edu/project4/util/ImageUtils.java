@@ -1,7 +1,7 @@
 package edu.project4.util;
 
-import edu.project4.model.FractalImage;
 import edu.project4.model.Format;
+import edu.project4.model.FractalImage;
 import edu.project4.model.Pixel;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
