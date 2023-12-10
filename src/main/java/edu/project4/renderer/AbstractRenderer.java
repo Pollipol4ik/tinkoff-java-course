@@ -6,7 +6,6 @@ import edu.project4.model.Pixel;
 import edu.project4.model.Point;
 import edu.project4.model.Rect;
 import edu.project4.transformation.Transformation;
-
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 import static edu.project4.util.PointUtils.rotate;
