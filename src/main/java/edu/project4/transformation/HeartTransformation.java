@@ -3,16 +3,14 @@ package edu.project4.transformation;
 import edu.project4.model.Point;
 
 public class HeartTransformation implements Transformation {
-
     @Override
     public Point apply(Point point) {
-        double oldX = point.x();
-        double oldY = point.y();
-        return new Point(
-            Math.sqrt(oldX * oldX + oldY * oldY) * Math.sin(
-                Math.sqrt(oldX * oldX + oldY * oldY) * Math.atan(oldY / oldX)),
-            -Math.sqrt(oldX * oldX + oldY * oldY) * Math.cos(
-                Math.sqrt(oldX * oldX + oldY * oldY) * Math.atan(oldY / oldX))
-        );
+        double x = point.x();
+        double y = point.y();
+        double sqrt = Math.sqrt(x * x + y * y);
+        double a = sqrt * Math.atan(y / x);
+        double newX = sqrt * Math.sin(a);
+        double newY = -sqrt * Math.cos(a);
+        return new Point(newX, newY);
     }
 }

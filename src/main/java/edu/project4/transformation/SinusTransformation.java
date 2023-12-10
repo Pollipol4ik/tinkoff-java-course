@@ -1,11 +1,12 @@
 package edu.project4.transformation;
 
+
 import edu.project4.model.Point;
+import static java.lang.Math.sin;
 
 public class SinusTransformation implements Transformation {
-
     @Override
     public Point apply(Point point) {
-        return new Point(Math.sin(point.x()), Math.sin(point.y()));
+        return new Point(sin(point.x()), sin(point.y()));
     }
 }

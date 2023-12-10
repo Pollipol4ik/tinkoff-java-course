@@ -1,40 +1,34 @@
 package edu.project4.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-public final class FractalImage {
-
-    private final Pixel[][] data;
+@AllArgsConstructor
+public class FractalImage {
+    Pixel[] data;
     @Getter
-    private final int height;
+    int width;
     @Getter
-    private final int width;
+    int height;
 
     public static FractalImage create(int width, int height) {
-        Pixel[][] data = new Pixel[height][width];
-        for (int i = 0; i < data.length; i++) {
-            for (int j = 0; j < data[i].length; j++) {
-                data[i][j] = new Pixel(0, 0, 0, 0, 0);
+        Pixel[] data = new Pixel[width * height];
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                data[width * y + x] = new Pixel(0, 0, 0, 0, 0);
             }
         }
-        return new FractalImage(data, height, width);
+        return new FractalImage(data, width, height);
     }
 
-    public boolean doesContainPixel(int x, int y) {
-        return x >= 0 && x < width && y >= 0 && y < height;
+    public boolean isContain(int x, int y) {
+        return (x <= width && x >= 0 && y <= height && y >= 0);
     }
 
-    public Pixel getPixel(int x, int y) {
-        if (!doesContainPixel(x, y)) {
-            return null;
+    public Pixel pixel(int x, int y) {
+        if (isContain(x, y)) {
+            return data[width * y + x];
         }
-        return data[y][x];
+        throw new RuntimeException("Incorrect coordinates!");
     }
-
-    private FractalImage(Pixel[][] data, int height, int width) {
-        this.data = data;
-        this.height = height;
-        this.width = width;
-    }
-
 }

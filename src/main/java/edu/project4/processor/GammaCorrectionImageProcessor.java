@@ -4,32 +4,34 @@ import edu.project4.model.FractalImage;
 import edu.project4.model.Pixel;
 
 public class GammaCorrectionImageProcessor implements ImageProcessor {
-
-    private static final double GAMMA = 1.9;
+    private static final double GAMMA_CONSTANT = 1.7;
 
     @Override
     public void process(FractalImage image) {
-        double max = 0;
-        for (int x = 0; x < image.getWidth(); x++) {
-            for (int y = 0; y < image.getHeight(); y++) {
-                Pixel curPixel = image.getPixel(x, y);
-                if (curPixel.getHitCount() != 0) {
-                    curPixel.setNormal(Math.log10(curPixel.getHitCount()));
-                    max = Math.max(max, curPixel.getNormal());
+        double max = 0.0;
+        double gamma = GAMMA_CONSTANT;
+
+        for (int y = 0; y < image.getHeight(); y++) {
+            for (int x = 0; x < image.getWidth(); x++) {
+                Pixel pixel = image.pixel(x, y);
+                if (pixel.getHitCount() != 0) {
+                    pixel.setCorrectionValue(Math.log10(pixel.getHitCount()));
+                    if (pixel.getCorrectionValue() > max) {
+                        max = pixel.getCorrectionValue();
+                    }
                 }
             }
         }
-        for (int x = 0; x < image.getWidth(); x++) {
-            for (int y = 0; y < image.getHeight(); y++) {
-                Pixel curPixel = image.getPixel(x, y);
-                curPixel.setNormal(curPixel.getNormal() / max);
-                curPixel.setR(
-                    (int) (curPixel.getR() * Math.pow(curPixel.getNormal(), (1.0 / GAMMA))));
-                curPixel.setG(
-                    (int) (curPixel.getG() * Math.pow(curPixel.getNormal(), (1.0 / GAMMA))));
-                curPixel.setB(
-                    (int) (curPixel.getB() * Math.pow(curPixel.getNormal(), (1.0 / GAMMA))));
+
+        for (int y = 0; y < image.getHeight(); y++) {
+            for (int x = 0; x < image.getWidth(); x++) {
+                Pixel pixel = image.pixel(x, y);
+                pixel.setCorrectionValue(pixel.getCorrectionValue() / max);
+                pixel.setR((int) (pixel.getR() * Math.pow(pixel.getCorrectionValue(), (1.0 / gamma))));
+                pixel.setG((int) (pixel.getG() * Math.pow(pixel.getCorrectionValue(), (1.0 / gamma))));
+                pixel.setB((int) (pixel.getB() * Math.pow(pixel.getCorrectionValue(), (1.0 / gamma))));
             }
         }
+
     }
 }

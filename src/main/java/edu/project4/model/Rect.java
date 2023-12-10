@@ -3,14 +3,14 @@ package edu.project4.model;
 import java.util.concurrent.ThreadLocalRandom;
 
 public record Rect(double x, double y, double width, double height) {
-
-    public boolean doesContainPoint(Point p) {
-        return p.x() >= x && p.x() < width + x && p.y() >= y && p.y() < height + y;
+    public boolean isContain(Point p) {
+        return (p.x() > x && p.x() < (width) && p.y() > y && p.y() < (height));
     }
 
-    public Point getRandomPoint() {
-        double px = ThreadLocalRandom.current().nextDouble(0, width);
-        double py = ThreadLocalRandom.current().nextDouble(0, height);
-        return new Point(px, py);
+    public Point getRandom() {
+        return new Point(
+            ThreadLocalRandom.current().nextDouble(x, width),
+            ThreadLocalRandom.current().nextDouble(y, height)
+        );
     }
 }

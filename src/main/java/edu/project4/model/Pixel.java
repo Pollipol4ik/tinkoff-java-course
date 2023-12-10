@@ -1,17 +1,32 @@
 package edu.project4.model;
 
+import java.awt.Color;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
+@Data
 @AllArgsConstructor
-@Getter
-@Setter
 public class Pixel {
+    int r;
+    int g;
+    int b;
+    int hitCount;
+    double correctionValue;
 
-    private int r;
-    private int g;
-    private int b;
-    private int hitCount;
-    private double normal;
+    public synchronized void updatePixel(Color color) {
+        setColor(color);
+        hitCount++;
+    }
+
+    private synchronized void setColor(Color color) {
+        if (hitCount == 0) {
+            this.r = color.getRed();
+            this.g = color.getGreen();
+            this.b = color.getBlue();
+        } else {
+            this.r = (r + color.getRed()) / 2;
+            this.g = (g + color.getGreen()) / 2;
+            this.b = (b + color.getBlue()) / 2;
+        }
+    }
 }
