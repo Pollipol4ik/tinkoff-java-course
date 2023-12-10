@@ -8,7 +8,11 @@ import edu.project4.processor.GammaCorrectionImageProcessor;
 import edu.project4.processor.ImageProcessor;
 import edu.project4.renderer.ParallelRenderer;
 import edu.project4.transformation.HeartTransformation;
+import edu.project4.transformation.LinearTransformation;
+import edu.project4.transformation.PolarTransformation;
 import edu.project4.transformation.SinusTransformation;
+import edu.project4.transformation.SphereTransformation;
+import edu.project4.transformation.TangentTransformation;
 import edu.project4.util.ImageUtils;
 import java.nio.file.Path;
 import java.util.List;
@@ -24,15 +28,17 @@ public class FractalMain {
 
         ParallelRenderer.renderAsync(
             fractalImage,
-            new Rect(-1.77, -2.0, 3.5, 2.0),
+            new Rect(-3.5, -2.0, 3.5, 2.0),
             List.of(
-                //new PolarTransformation(),
+                new PolarTransformation(),
                 new HeartTransformation(),
-                new SinusTransformation()
-                //new LinearTransformation()
+                new SinusTransformation(),
+                new LinearTransformation(),
+                new SphereTransformation(),
+                new TangentTransformation()
             ),
             Stream.generate(AffineCoefficients::new).limit(5).toList(),
-            4,
+            9,
             1000000,
             (short) 5,
             6

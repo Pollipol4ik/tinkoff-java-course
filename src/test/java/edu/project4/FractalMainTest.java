@@ -17,8 +17,8 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 class FractalMainTest {
 
     @Test
-    @DisplayName("Gamma correction test")
-    public void process_shouldCorrectImage_whenUsedMultiThread() {
+    @DisplayName("Correct test")
+    public void process_correctImage_whenUsedMultiThread() {
         FractalImage fractalImage = FractalImage.create(7680, 4320);
 
         ParallelRenderer.renderAsync(

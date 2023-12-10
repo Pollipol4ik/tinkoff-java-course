@@ -9,7 +9,7 @@ class PointUtilTest {
 
     @Test
     @DisplayName("#rotate")
-    public void rotatePoint_shouldReturnCorrectPoint() {
+    public void rotatePoint_returnCorrectPoint() {
         Point point = new Point(0, 5);
         double angle = Math.PI / 2;
         Point expected = new Point(5, 0);

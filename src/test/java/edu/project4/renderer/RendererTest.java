@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 class RendererTest {
 
     @Test
-    @DisplayName("Тестирование ParallelRenderer#renderAsync")
+    @DisplayName("ParallelRenderer #renderAsync")
     public void render_shouldRenderImage_whenUsedMultiThread() {
         FractalImage fractalImage = FractalImage.create(1920, 1080);
         assertDoesNotThrow(() -> ParallelRenderer.renderAsync(
@@ -31,7 +31,7 @@ class RendererTest {
     }
 
     @Test
-    @DisplayName("Тестирование SingleThreadRenderer#renderSync")
+    @DisplayName("DefaultRenderer #renderSync")
     public void render_shouldRenderImage_whenUsedOneThread() {
         FractalImage fractalImage = FractalImage.create(1920, 1080);
         assertDoesNotThrow(() -> DefaultRenderer.renderSync(
