@@ -17,7 +17,7 @@ class ParallelSearchTreeTest {
 
     @SneakyThrows
     @Test
-    @DisplayName("Тест findLargeDirectories")
+    @DisplayName("#findLargeDirectories")
     public void findLargeDirectories_shouldReturnDirectories_withFilesMoreThan2(@TempDir Path tempDir) {
         initializeDirectory(tempDir);
         assertThat(ParallelSearchTree.findLargeDirectories(tempDir, 2))
@@ -27,7 +27,7 @@ class ParallelSearchTreeTest {
 
     @SneakyThrows
     @Test
-    @DisplayName("Тест findFilesWithPredicate")
+    @DisplayName("#findFilesWithPredicate")
     public void findFilesWithPredicate_shouldReturnFiles_with_txt_type(@TempDir Path tempDir) {
         initializeDirectory(tempDir);
         Predicate<Path> txtFilePredicate = file -> file.toString().endsWith(".txt");
