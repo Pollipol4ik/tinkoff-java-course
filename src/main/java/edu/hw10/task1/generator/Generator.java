@@ -1,4 +1,4 @@
-package edu.hw10.task1.generator.fields_generator;
+package edu.hw10.task1.generator;
 
 import java.lang.reflect.Parameter;
 

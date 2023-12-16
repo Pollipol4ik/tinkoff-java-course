@@ -11,7 +11,7 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public class GeneratorUtils {
 
-    public final static double DEFAULT_NULL_PROBABILITY = 0.01;
+    public static final double DEFAULT_NULL_PROBABILITY = 0.01;
 
     public static Long getMinFromAnnotation(Annotation[] annotations, long minValue, long maxValue) {
         return Arrays.stream(annotations)
@@ -23,8 +23,7 @@ public class GeneratorUtils {
     }
 
     public static Long getMaxFromAnnotation(Annotation[] annotations, long minValue, long maxValue) {
-        return Arrays
-            .stream(annotations)
+        return Arrays.stream(annotations)
             .filter(annotation -> annotation instanceof Max)
             .map(entry -> ((Max) entry).value())
             .max(Long::compareTo)

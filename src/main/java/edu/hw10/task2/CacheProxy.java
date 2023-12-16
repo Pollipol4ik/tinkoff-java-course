@@ -1,22 +1,17 @@
 package edu.hw10.task2;
 
 import java.lang.reflect.Proxy;
-import java.nio.file.Path;
+import lombok.experimental.UtilityClass;
 
-public final class CacheProxy {
+@UtilityClass
+public class CacheProxy {
 
-    private CacheProxy() {
-
-    }
-
-    public static <T> T create(T object, Class<T> className, Path persistPath) {
+    @SuppressWarnings("unchecked")
+    public static <T> T create(T object, Class<? extends T> clazz) {
         return (T) Proxy.newProxyInstance(
-            className.getClassLoader(),
-            className.getInterfaces(),
-            new CacheInvocationHandler(
-                object,
-                persistPath
-            )
+            CacheProxy.class.getClassLoader(),
+            new Class[] {clazz},
+            new CacheInvocationHandler(object)
         );
     }
 }
