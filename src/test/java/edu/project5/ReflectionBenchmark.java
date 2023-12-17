@@ -1,13 +1,5 @@
 package edu.project5;
 
-import org.openjdk.jmh.annotations.*;
-import org.openjdk.jmh.infra.Blackhole;
-import org.openjdk.jmh.runner.Runner;
-import org.openjdk.jmh.runner.RunnerException;
-import org.openjdk.jmh.runner.options.Options;
-import org.openjdk.jmh.runner.options.OptionsBuilder;
-import org.openjdk.jmh.runner.options.TimeValue;
-
 import java.lang.invoke.CallSite;
 import java.lang.invoke.LambdaMetafactory;
 import java.lang.invoke.MethodHandle;
@@ -16,11 +8,24 @@ import java.lang.invoke.MethodType;
 import java.lang.reflect.Method;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
+import lombok.SneakyThrows;
+import org.openjdk.jmh.annotations.Benchmark;
+import org.openjdk.jmh.annotations.Mode;
+import org.openjdk.jmh.annotations.Scope;
+import org.openjdk.jmh.annotations.Setup;
+import org.openjdk.jmh.annotations.State;
+import org.openjdk.jmh.infra.Blackhole;
+import org.openjdk.jmh.runner.Runner;
+import org.openjdk.jmh.runner.options.Options;
+import org.openjdk.jmh.runner.options.OptionsBuilder;
+import org.openjdk.jmh.runner.options.TimeValue;
 
 @State(Scope.Thread)
 public class ReflectionBenchmark {
 
-    private record Student(String name, String surname) {}
+    private record Student(String name, String surname) {
+
+    }
 
     private Student student;
     private Method method;
@@ -28,13 +33,12 @@ public class ReflectionBenchmark {
     private Function<Student, String> lambdaFunction;
 
     @Setup
-    public void setup() throws Throwable {
+    @SneakyThrows
+    public void setup() {
         student = new Student("Polina", "Kuptsova");
         method = Student.class.getDeclaredMethod("name");
         method.setAccessible(true);
-
         methodHandle = MethodHandles.lookup().findGetter(Student.class, "name", String.class);
-
         CallSite callSite = LambdaMetafactory.metafactory(
             MethodHandles.lookup(),
             "apply",
@@ -43,34 +47,37 @@ public class ReflectionBenchmark {
             MethodHandles.lookup().findVirtual(Student.class, "name", MethodType.methodType(String.class)),
             MethodType.methodType(String.class, Student.class)
         );
-        lambdaFunction = (Function<Student, String>) callSite.getTarget().invokeExact();
+        lambdaFunction = ((Function<Student, String>) callSite.getTarget().invokeExact());
     }
 
     @Benchmark
-    public void directAccess(Blackhole blackhole) {
+    public void directAccess(Blackhole bh) {
         String name = student.name();
-        blackhole.consume(name);
+        bh.consume(name);
     }
 
     @Benchmark
-    public void reflectionAccess(Blackhole blackhole) throws Throwable {
-        String name = (String) method.invoke(student);
-        blackhole.consume(name);
+    @SneakyThrows
+    public void reflectionAccess(Blackhole bh) {
+        Object name = method.invoke(student);
+        bh.consume(name);
     }
 
     @Benchmark
-    public void methodHandlesAccess(Blackhole blackhole) throws Throwable {
-        String name = (String) methodHandle.invoke(student);
-        blackhole.consume(name);
+    @SneakyThrows
+    public void methodHandlesAccess(Blackhole bh) {
+        Object name = methodHandle.invoke(student);
+        bh.consume(name);
     }
 
     @Benchmark
-    public void lambdaMetaFactoryAccess(Blackhole blackhole) {
+    @SneakyThrows
+    public void lambdaMetaFactoryAccess(Blackhole bh) {
         String name = lambdaFunction.apply(student);
-        blackhole.consume(name);
+        bh.consume(name);
     }
-
-    public static void main(String[] args) throws RunnerException {
+    @SneakyThrows
+    public static void main(String[] args) {
         Options options = new OptionsBuilder()
             .include(ReflectionBenchmark.class.getSimpleName())
             .shouldFailOnError(true)
