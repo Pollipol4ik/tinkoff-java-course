@@ -23,9 +23,7 @@ import org.openjdk.jmh.runner.options.TimeValue;
 @State(Scope.Thread)
 public class ReflectionBenchmark {
 
-    private record Student(String name, String surname) {
-
-    }
+    private record Student(String name, String surname) {}
 
     private Student student;
     private Method method;
@@ -76,6 +74,7 @@ public class ReflectionBenchmark {
         String name = lambdaFunction.apply(student);
         bh.consume(name);
     }
+
     @SneakyThrows
     public static void main(String[] args) {
         Options options = new OptionsBuilder()
